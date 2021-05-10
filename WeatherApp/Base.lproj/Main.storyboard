@@ -11,7 +11,7 @@
         <!--Weather View Controller-->
         <scene sceneID="fde-o9-u2n">
             <objects>
-                <viewController id="wOG-hD-Kl0" customClass="WeatherViewController" customModule="Clima" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wOG-hD-Kl0" customClass="WeatherViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16G-s4-anG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,19 +26,19 @@
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Rp-a1-Hlm">
-                                                <rect key="frame" x="0.0" y="0.5" width="40" height="39"/>
+                                                <rect key="frame" x="0.0" y="1" width="40" height="39"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="TdV-bY-9Lf"/>
                                                     <constraint firstAttribute="width" constant="40" id="Ti2-SQ-69J"/>
                                                 </constraints>
                                                 <color key="tintColor" systemColor="labelColor"/>
-                                                <state key="normal" backgroundImage="location.circle.fill" catalog="system"/>
+                                                <state key="normal" backgroundImage="location.fill" catalog="system"/>
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City Name" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="wOb-Pa-Kdx">
                                                 <rect key="frame" x="50" y="0.0" width="274" height="40"/>
                                                 <color key="backgroundColor" systemColor="systemFillColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="go"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PbR-xO-Wt0">
                                                 <rect key="frame" x="334" y="1" width="40" height="38"/>
@@ -48,6 +48,9 @@
                                                 </constraints>
                                                 <color key="tintColor" systemColor="labelColor"/>
                                                 <state key="normal" backgroundImage="magnifyingglass" catalog="system"/>
+                                                <connections>
+                                                    <action selector="searchButtonClicked:" destination="wOG-hD-Kl0" eventType="touchUpInside" id="xdJ-KM-nF0"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -111,6 +114,7 @@
                         <outlet property="imageViewWeather" destination="t6Q-Rt-PvN" id="VRW-jc-nvi"/>
                         <outlet property="labelCity" destination="tQ1-G6-dhk" id="gw9-Ya-aB9"/>
                         <outlet property="labelTemperature" destination="PWW-t3-GAv" id="72c-JF-abv"/>
+                        <outlet property="textFieldCityName" destination="wOb-Pa-Kdx" id="kor-wy-KY7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Rq-gj-ZIw" sceneMemberID="firstResponder"/>
@@ -119,8 +123,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="1377" height="1377"/>
-        <image name="location.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="background" width="662" height="662"/>
+        <image name="location.fill" catalog="system" width="128" height="121"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="sun.max" catalog="system" width="128" height="124"/>
         <systemColor name="labelColor">

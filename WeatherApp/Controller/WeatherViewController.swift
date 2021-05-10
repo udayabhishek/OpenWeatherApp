@@ -8,17 +8,22 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-    
+    @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var labelCity: UILabel!
     @IBOutlet weak var labelTemperature: UILabel!
     @IBOutlet weak var imageViewWeather: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        textFieldCityName.delegate = self
     }
     
+//MARK: - Search City Name
+    
+    @IBAction func searchButtonClicked(_ sender: UIButton) {
+        //this will return keyboard
+        textFieldCityName.endEditing(true)
+    }
 
     /*
     // MARK: - Navigation
@@ -31,3 +36,28 @@ class WeatherViewController: UIViewController {
     */
 
 }
+
+//MARK: - Text Field Delegate Methods
+
+extension WeatherViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            return true
+        } else {
+            textField.placeholder = "Enter City Name"
+            return false
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
+}
+
+
