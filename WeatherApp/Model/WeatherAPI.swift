@@ -17,6 +17,7 @@ struct WeatherAPI {
     let weatherBaseURL = "http://api.openweathermap.org/data/2.5/weather?appid=fae7190d7e6433ec3a45285ffcf55c86&units=metric"
     var delegate: WeatherAPIDelegate?
     
+    //get weather details base on city name
     func getWeatherDetails(cityName: String) {
         //api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
         let url = "\(weatherBaseURL)&q=\(cityName)"
@@ -24,13 +25,13 @@ struct WeatherAPI {
         performRequest(url: url)
     }
     
+    //get weather details base on coordinates
     func getWeatherDetails(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
         let url = "\(weatherBaseURL)&lat=\(lattitude)&lon=\(longitude)"
         print(url)
         performRequest(url: url)
     }
-    
     
     //get data from json data
     func performRequest(url: String) {
@@ -50,20 +51,18 @@ struct WeatherAPI {
             task.resume()
         }
     }
-    
+     
     func parseJSON(weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(WeatherItem.self, from: weatherData)
-//            print(decodedData.name)
-//            print(decodedData.main.temp)
-//            print(decodedData.weather[0].description)
             let id = decodedData.weather[0].id
             let name = decodedData.name
             let temp = decodedData.main.temp
+            let humidity = decodedData.main.humidity
+            let windSpeed = decodedData.wind.speed
             
-            let weather = WeatherModel(weatherId: id, cityName: name, temperature: temp)
-            print(weather.weatherName)
+            let weather = WeatherModel(weatherId: id, cityName: name, temperature: temp, humidity: humidity, windSpeed: windSpeed)
             return weather
             
         } catch {
@@ -71,8 +70,5 @@ struct WeatherAPI {
             delegate?.failedWithError(error: error)
             return nil
         }
-        
     }
-    
-    
 }

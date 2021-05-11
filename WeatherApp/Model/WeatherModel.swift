@@ -12,6 +12,8 @@ struct WeatherModel {
     let weatherId: Int
     let cityName: String
     let temperature: Double
+    let humidity: Double
+    let windSpeed: Double
     
     //this will return temp after one decimal point
     var tempratureInString: String {

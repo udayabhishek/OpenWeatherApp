@@ -12,6 +12,8 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var imageViewWeather: UIImageView!
     @IBOutlet weak var labelTemperature: UILabel!
+    @IBOutlet weak var labelHumidity: UILabel!
+    @IBOutlet weak var labelWindSpeed: UILabel!
     @IBOutlet weak var labelCity: UILabel!
     
     var weatherAPI = WeatherAPI()
@@ -111,6 +113,9 @@ extension WeatherViewController: WeatherAPIDelegate {
             self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
             self.labelTemperature.text = weatherModel.tempratureInString
             self.labelCity.text = weatherModel.cityName
+            self.labelHumidity.text = "Humidity \(weatherModel.humidity)"
+            self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed)"
+            
         }
     }
     
