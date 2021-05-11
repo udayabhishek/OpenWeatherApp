@@ -14,7 +14,7 @@ protocol WeatherAPIDelegate {
 }
 
 struct WeatherAPI {
-    let weatherBaseURL = "http://api.openweathermap.org/data/2.5/weather?appid=fae7190d7e6433ec3a45285ffcf55c86&units=metric"
+    let weatherBaseURL = "\(Globals.baseURL)appid=\(Globals.appID)&units=\(Globals.unit)"
     var delegate: WeatherAPIDelegate?
     
     //get weather details base on city name

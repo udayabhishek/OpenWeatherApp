@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct WeatherModel {
     let weatherId: Int
     let cityName: String
@@ -18,6 +17,11 @@ struct WeatherModel {
     //this will return temp after one decimal point
     var tempratureInString: String {
         return String(format: "%.1f", temperature)
+    }
+    
+    //this will return temp after one decimal point
+    var windSpeedInString: String {
+        return String(format: "%.1f", windSpeed)
     }
     
     //this will return weather condition
