@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 protocol WeatherAPIDelegate {
     func updateWeatherDetails(weatherAPI: WeatherAPI,weatherModel: WeatherModel)
@@ -17,10 +18,19 @@ struct WeatherAPI {
     var delegate: WeatherAPIDelegate?
     
     func getWeatherDetails(cityName: String) {
+        //api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
         let url = "\(weatherBaseURL)&q=\(cityName)"
         print(url)
         performRequest(url: url)
     }
+    
+    func getWeatherDetails(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+        let url = "\(weatherBaseURL)&lat=\(lattitude)&lon=\(longitude)"
+        print(url)
+        performRequest(url: url)
+    }
+    
     
     //get data from json data
     func performRequest(url: String) {

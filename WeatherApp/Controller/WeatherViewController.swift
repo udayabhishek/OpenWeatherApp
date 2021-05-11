@@ -6,16 +6,24 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
     @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var imageViewWeather: UIImageView!
     @IBOutlet weak var labelTemperature: UILabel!
     @IBOutlet weak var labelCity: UILabel!
+    
     var weatherAPI = WeatherAPI()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldCityName.endEditing(true)
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+        
         weatherAPI.delegate = self
         textFieldCityName.delegate = self
     }
@@ -25,6 +33,12 @@ class WeatherViewController: UIViewController {
     @IBAction func searchButtonClicked(_ sender: UIButton) {
         //this will return keyboard
         textFieldCityName.endEditing(true)
+    }
+    
+    @IBAction func locationButtonClicked(_ sender: UIButton) {
+        //this will return keyboard
+//        textFieldCityName.endEditing(true)
+        locationManager.requestLocation()
     }
 
     /*
@@ -36,6 +50,28 @@ class WeatherViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+}
+
+//MARK: - CLLocationManager Delegate Methods
+
+extension WeatherViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+        print(locations[0].coordinate.latitude)
+        if let currentLocation = locations.last {
+            locationManager.stopUpdatingLocation()
+            let lat = currentLocation.coordinate.latitude
+            let lon = currentLocation.coordinate.longitude
+            print(lat)
+            print(lon)
+            weatherAPI.getWeatherDetails(lattitude: lat, longitude: lon)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
 }
 
 //MARK: - Text Field Delegate Methods
@@ -72,9 +108,9 @@ extension WeatherViewController: WeatherAPIDelegate {
         
         //updating UI
         DispatchQueue.main.async {
+            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
             self.labelTemperature.text = weatherModel.tempratureInString
             self.labelCity.text = weatherModel.cityName
-            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
         }
     }
     
