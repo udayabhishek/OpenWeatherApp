@@ -7,14 +7,17 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
+
+class WeatherViewController: UIViewController, WeatherAPIDelegate {
     @IBOutlet weak var textFieldCityName: UITextField!
-    @IBOutlet weak var labelCity: UILabel!
-    @IBOutlet weak var labelTemperature: UILabel!
     @IBOutlet weak var imageViewWeather: UIImageView!
+    @IBOutlet weak var labelTemperature: UILabel!
+    @IBOutlet weak var labelCity: UILabel!
+    var weatherAPI = WeatherAPI()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherAPI.delegate = self
         textFieldCityName.delegate = self
     }
     
@@ -34,6 +37,23 @@ class WeatherViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
+        
+        //updating UI
+        DispatchQueue.main.async {
+            self.labelTemperature.text = weatherModel.tempratureInString
+            self.labelCity.text = weatherModel.cityName
+            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
+        }
+        
+    }
+    
+    //handling returned error
+    func failedWithError(error: Error) {
+        print(error)
+    }
 
 }
 
@@ -56,8 +76,18 @@ extension WeatherViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if let cityName = textField.text {
+            weatherAPI.getWeatherDetails(cityName: cityName)
+        }
         textField.text = ""
     }
 }
 
+//extension WeatherViewController: WeatherAPIDelegate {
+//
+//    func updateWeatherDetails(weatherModel: WeatherModel) {
+//        print(weatherModel.temperature)
+//    }
+//
+//}
 
