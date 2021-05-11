@@ -7,8 +7,7 @@
 
 import UIKit
 
-
-class WeatherViewController: UIViewController, WeatherAPIDelegate {
+class WeatherViewController: UIViewController {
     @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var imageViewWeather: UIImageView!
     @IBOutlet weak var labelTemperature: UILabel!
@@ -21,7 +20,7 @@ class WeatherViewController: UIViewController, WeatherAPIDelegate {
         textFieldCityName.delegate = self
     }
     
-//MARK: - Search City Name
+    //MARK: - Search City Name
     
     @IBAction func searchButtonClicked(_ sender: UIButton) {
         //this will return keyboard
@@ -37,24 +36,6 @@ class WeatherViewController: UIViewController, WeatherAPIDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    
-    func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
-        
-        //updating UI
-        DispatchQueue.main.async {
-            self.labelTemperature.text = weatherModel.tempratureInString
-            self.labelCity.text = weatherModel.cityName
-            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
-        }
-        
-    }
-    
-    //handling returned error
-    func failedWithError(error: Error) {
-        print(error)
-    }
-
 }
 
 //MARK: - Text Field Delegate Methods
@@ -83,11 +64,24 @@ extension WeatherViewController: UITextFieldDelegate {
     }
 }
 
-//extension WeatherViewController: WeatherAPIDelegate {
-//
-//    func updateWeatherDetails(weatherModel: WeatherModel) {
-//        print(weatherModel.temperature)
-//    }
-//
-//}
+//MARK: - WeatherAPI Delegate Methods
+
+extension WeatherViewController: WeatherAPIDelegate {
+
+    func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
+        
+        //updating UI
+        DispatchQueue.main.async {
+            self.labelTemperature.text = weatherModel.tempratureInString
+            self.labelCity.text = weatherModel.cityName
+            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
+        }
+    }
+    
+    //handling returned error
+    func failedWithError(error: Error) {
+        print(error)
+    }
+}
+
 
