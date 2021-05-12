@@ -170,6 +170,32 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dkZ-xN-XGE">
                                         <rect key="frame" x="10" y="357.5" width="374" height="327.5"/>
+                                        <subviews>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5RV-YV-oY6">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="328"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellWeatherForecast" rowHeight="69" id="zRm-x9-mdf" customClass="WeatherTableViewCell" customModule="WeatherApp" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="28" width="374" height="69"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zRm-x9-mdf" id="171-bl-g3A">
+                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="69"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="wOG-hD-Kl0" id="SF6-gt-Qvh"/>
+                                                    <outlet property="delegate" destination="wOG-hD-Kl0" id="WcJ-QG-ehG"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="5RV-YV-oY6" secondAttribute="bottom" id="911-VG-hBS"/>
+                                            <constraint firstAttribute="trailing" secondItem="5RV-YV-oY6" secondAttribute="trailing" id="Ahl-as-zNx"/>
+                                            <constraint firstItem="5RV-YV-oY6" firstAttribute="top" secondItem="dkZ-xN-XGE" secondAttribute="top" id="HaV-3X-hKu"/>
+                                            <constraint firstItem="5RV-YV-oY6" firstAttribute="leading" secondItem="dkZ-xN-XGE" secondAttribute="leading" id="tgS-R6-ux0"/>
+                                        </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aaR-jp-mPz">
                                         <rect key="frame" x="128" y="690" width="138" height="64"/>
@@ -220,6 +246,7 @@
                         <outlet property="labelTemperature" destination="PWW-t3-GAv" id="72c-JF-abv"/>
                         <outlet property="labelTemperatureUnit" destination="Et6-UP-pZo" id="bGk-sf-chm"/>
                         <outlet property="labelWindSpeed" destination="Nsl-km-koF" id="m81-6s-DhX"/>
+                        <outlet property="tableViewWeatherForecast" destination="5RV-YV-oY6" id="eWf-47-2AO"/>
                         <outlet property="textFieldCityName" destination="wOb-Pa-Kdx" id="kor-wy-KY7"/>
                     </connections>
                 </viewController>
