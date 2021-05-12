@@ -35,7 +35,11 @@ enum ButtonTag: Int {
 }
 
 class Globals {
-    static let baseURL = "http://api.openweathermap.org/data/2.5/weather?"
+    static let weather = "weather?"
+    static let forecast = "forecast?"
+    
+    static let fbaseURL = "http://api.openweathermap.org/data/2.5/"
+    static let baseURL = "http://api.openweathermap.org/data/2.5/"
     static let appID = "fae7190d7e6433ec3a45285ffcf55c86"
     static var unit = Unit.Metric.rawValue
     static var degree = Degree.Centigrade.rawValue

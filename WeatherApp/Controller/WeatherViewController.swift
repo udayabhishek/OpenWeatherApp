@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var imageViewWeather: UIImageView!
     @IBOutlet weak var labelTemperature: UILabel!
@@ -20,17 +21,10 @@ class WeatherViewController: UIViewController {
     let userDefault = UserDefaults.standard
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
     var weatherModelForSelectedCity: WeatherModel?
-//    var weatherModelForSelectedCity: WeatherModel? {
-//        didSet {
-////            loadUI()
-//        }
-//    }
-    
-    lazy var speedLazy: Double = {
-        return 0.0
-    }()
-    
+    var forecastModelForSelectedCity: [WeatherModel]?
+
     var weatherAPI = WeatherAPI()
+    var forcastAPI = ForecastAPI()
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
@@ -41,6 +35,7 @@ class WeatherViewController: UIViewController {
 //        locationManager.requestLocation()
         
         weatherAPI.delegate = self
+        forcastAPI.delegate = self
         textFieldCityName.delegate = self
         
         tableViewWeatherForecast.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "cellWeatherForecast")
@@ -70,7 +65,6 @@ class WeatherViewController: UIViewController {
             self.labelCity.text = weatherModel.cityName
             self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
             self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
-            self.speedLazy = weatherModel.windSpeed
         }
     }
     //    MARK: - save and fetch methods
@@ -175,6 +169,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
             print(lat)
             print(lon)
             weatherAPI.getWeatherDetails(lattitude: lat, longitude: lon)
+            forcastAPI.getWeatherDetails(lattitude: lat, longitude: lon)
         }
     }
     
@@ -204,15 +199,14 @@ extension WeatherViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let cityName = textField.text {
+            self.activityIndicator.startAnimating()
             weatherAPI.getWeatherDetails(cityName: cityName)
+            forcastAPI.getWeatherDetails(cityName: cityName)
+            
 //            getWeatherDataFor(city: cityName)
         }
         textField.text = ""
     }
-    
-//    func getWeatherDataFor(city: String = "") {
-//        weatherAPI.getWeatherDetails(cityName: ci)
-//    }
 }
 
 //MARK: - WeatherAPI Delegate Methods
@@ -223,12 +217,12 @@ extension WeatherViewController: WeatherAPIDelegate {
         
         //updating UI
         DispatchQueue.main.async {
+            
             self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
             self.labelTemperature.text = weatherModel.tempratureInString
             self.labelCity.text = weatherModel.cityName
             self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
             self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
-            self.speedLazy = weatherModel.windSpeed
         }
     }
     
@@ -238,17 +232,49 @@ extension WeatherViewController: WeatherAPIDelegate {
     }
 }
 
+//MARK: - WeatherAPI Delegate Methods
+
+extension WeatherViewController: ForecastAPIDelegate {
+
+    func updateWeatherDetails(forecastAPI: ForecastAPI, weatherModel: [WeatherModel]) {
+        forecastModelForSelectedCity = weatherModel
+        //updating UI
+        DispatchQueue.main.async {
+//            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
+//            self.labelTemperature.text = weatherModel.tempratureInString
+//            self.labelCity.text = weatherModel.cityName
+//            self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
+//            self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
+            self.activityIndicator.stopAnimating()
+            self.tableViewWeatherForecast.reloadData()
+        }
+    }
+    
+    //handling returned error
+//    func failedWithError(error: Error) {
+//        print(error)
+//    }
+}
+
 
 extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if let forcastData = forecastModelForSelectedCity {
+            return forcastData.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 //        let tableCell = UITableViewCell()
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellWeatherForecast", for: indexPath) as! WeatherTableViewCell
-        cell.labelDay.text = "monday"
-        cell.labelTemperature.text = "11/33"
+        if let forcastData = forecastModelForSelectedCity {
+            let temp = "\(forcastData[indexPath.row].tempMin) / \(forcastData[indexPath.row].tempMax)"
+            cell.labelDay.text = "\(forcastData[indexPath.row].dateInDayFormat)"
+            cell.labelTemperature.text = temp
+            cell.imageViewWeather.image = UIImage(systemName: forcastData[indexPath.row].weatherName)
+        }
+        
         return cell
     }
     

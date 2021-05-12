@@ -14,7 +14,7 @@ protocol WeatherAPIDelegate {
 }
 
 struct WeatherAPI {
-    let weatherBaseURL = "\(Globals.baseURL)appid=\(Globals.appID)&units=\(Globals.unit)"
+    let weatherBaseURL = "\(Globals.baseURL)\(Globals.weather)appid=\(Globals.appID)&units=\(Globals.unit)"
     var delegate: WeatherAPIDelegate?
     
     //get weather details base on city name
@@ -59,8 +59,10 @@ struct WeatherAPI {
             let temp = decodedData.main.temp
             let humidity = decodedData.main.humidity
             let windSpeed = decodedData.wind.speed
+            let tempMax = decodedData.main.tempMax
+            let tempMin = decodedData.main.tempMin
             
-            let weather = WeatherModel(weatherId: id, cityName: name, temperature: temp, humidity: humidity, windSpeed: windSpeed)
+            let weather = WeatherModel(weatherId: id, cityName: name, temperature: temp, humidity: humidity, windSpeed: windSpeed, tempMax: tempMax, tempMin: tempMin, dateTime: 0 )
             return weather
             
         } catch {
