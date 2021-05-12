@@ -19,7 +19,6 @@ struct WeatherAPI {
     
     //get weather details base on city name
     func getWeatherDetails(cityName: String) {
-        //api.openweathermap.org/data/2.5/weather?q=London&appid={API key}
         let url = "\(weatherBaseURL)&q=\(cityName)"
         print(url)
         performRequest(url: url)
@@ -27,7 +26,6 @@ struct WeatherAPI {
     
     //get weather details base on coordinates
     func getWeatherDetails(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
         let url = "\(weatherBaseURL)&lat=\(lattitude)&lon=\(longitude)"
         print(url)
         performRequest(url: url)
