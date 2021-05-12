@@ -73,19 +73,6 @@ struct ForecastAPI {
                     arrForcastModel.append(weather)
                 }
             }
-            
-            //decodedData.list[0].main.temp
-            //decodedData.list[0].main.humidity
-            //decodedData.list[0].wind.speed
-            //decodedData.list[0].weather[0].id
-            //            let id = decodedData.weather[0].id
-            //            let name = decodedData.list[0].
-            //            let temp = decodedData.main.temp
-            //            let humidity = decodedData.main.humidity
-            //            let windSpeed = decodedData.wind.speed
-            //
-            //            let weather = WeatherModel(weatherId: id, cityName: name, temperature: temp, humidity: humidity, windSpeed: windSpeed)
-            //            return weather
             return arrForcastModel
             
         } catch {

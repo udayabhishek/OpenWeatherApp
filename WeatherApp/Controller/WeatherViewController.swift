@@ -18,44 +18,28 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var labelWindSpeed: UILabel!
     @IBOutlet weak var labelCity: UILabel!
     @IBOutlet weak var tableViewWeatherForecast: UITableView!
-    let userDefault = UserDefaults.standard
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
+    
     var weatherModelForSelectedCity: WeatherModel?
     var forecastModelForSelectedCity: [WeatherModel]?
-
     var weatherAPI = WeatherAPI()
     var forcastAPI = ForecastAPI()
     let locationManager = CLLocationManager()
+    let userDefault = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.navigationBar.isHidden = true
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-//        locationManager.requestLocation()
-        
         weatherAPI.delegate = self
         forcastAPI.delegate = self
         textFieldCityName.delegate = self
         
         tableViewWeatherForecast.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "cellWeatherForecast")
-        
-        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeMade(_:)))
-        leftRecognizer.direction = .left
-        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeMade(_:)))
-        rightRecognizer.direction = .right
-        self.view.addGestureRecognizer(leftRecognizer)
-        self.view.addGestureRecognizer(rightRecognizer)
     }
     
-    @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
-       if sender.direction == .left {
-          print("left swipe made")
-       }
-       if sender.direction == .right {
-          print("right swipe made")
-        _ = self.navigationController?.popViewController(animated: true)
-       }
+    override func viewWillAppear(_ animated: Bool) {
+        loadUI()
     }
     
     func loadUI() {
@@ -67,22 +51,11 @@ class WeatherViewController: UIViewController {
             self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
         }
     }
-    //    MARK: - save and fetch methods
-//        func saveItems() {
-//            //using NSEncoder
-//            let encoder = PropertyListEncoder()
-//            do {
-//                let data = try encoder.encode(Globals.shared.arrayCityNames)
-//                try data.write(to: dataFilePath!)
-//            } catch  {
-//                print("error while saving data: \(error)")
-//            }
-//        }
-        
-    override func viewWillAppear(_ animated: Bool) {
-        loadUI()
-    }
-    
+}
+
+//MARK: -  Button clicks
+
+extension WeatherViewController {
     //MARK: - Search City Name
     
     @IBAction func searchButtonClicked(_ sender: UIButton) {
@@ -91,11 +64,7 @@ class WeatherViewController: UIViewController {
     }
     
     @IBAction func locationButtonClicked(_ sender: UIButton) {
-        //this will return keyboard
-//        textFieldCityName.endEditing(true)
         textFieldCityName.resignFirstResponder()
-//        locationManager.delegate = self
-
         locationManager.requestLocation()
     }
     
@@ -104,8 +73,8 @@ class WeatherViewController: UIViewController {
         var message = "failed to bookmark"
         if !(Globals.shared.arrayCityNames.contains(cityName)) {
             Globals.shared.arrayCityNames.append(cityName)
-//            saveItems()
-//            userDefault.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
+            //            saveItems()
+            //            userDefault.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
             message = "City is bookmarked"
         } else {
             message = "City is aleady bookmarked"
@@ -114,22 +83,21 @@ class WeatherViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-
     @IBAction func changeMetric (_ sender: UIButton) {
-//        if sender.tag == ButtonTag.Metric.rawValue {
-//            Globals.unit = Unit.Metric.rawValue
-//            let temp = Double(labelTemperature.text!)
-//            let speed = speedLazy
-//            let result = imperialToMetric(temp: temp!, speed: speed)
-//            updateUI(result)
-//
-//        } else if sender.tag == ButtonTag.Imperial.rawValue {
-//            Globals.unit = Unit.Imperial.rawValue
-//            let temp = Double(labelTemperature.text!)
-//            let speed = speedLazy
-//            let result = metricToImperial(temp: temp!, speed: speed)
-//            updateUI(result)
-//        }
+        //        if sender.tag == ButtonTag.Metric.rawValue {
+        //            Globals.unit = Unit.Metric.rawValue
+        //            let temp = Double(labelTemperature.text!)
+        //            let speed = speedLazy
+        //            let result = imperialToMetric(temp: temp!, speed: speed)
+        //            updateUI(result)
+        //
+        //        } else if sender.tag == ButtonTag.Imperial.rawValue {
+        //            Globals.unit = Unit.Imperial.rawValue
+        //            let temp = Double(labelTemperature.text!)
+        //            let speed = speedLazy
+        //            let result = metricToImperial(temp: temp!, speed: speed)
+        //            updateUI(result)
+        //        }
     }
     
     func updateUI(_ result: (String, String)) {
@@ -153,6 +121,26 @@ class WeatherViewController: UIViewController {
         let speed = speed * 1.609
         return ("\(farenheit)", "\(speed)")
     }
+    
+    //TODO: - Yet to implement
+    func swipeGesture() {
+        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeMade(_:)))
+        leftRecognizer.direction = .left
+        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeMade(_:)))
+        rightRecognizer.direction = .right
+        self.view.addGestureRecognizer(leftRecognizer)
+        self.view.addGestureRecognizer(rightRecognizer)
+    }
+    
+    @IBAction func swipeMade(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .left {
+            print("left swipe made")
+        }
+        if sender.direction == .right {
+            print("right swipe made")
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
 }
 
 //MARK: - CLLocationManager Delegate Methods
@@ -160,14 +148,10 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
-        print(locations[0].coordinate.latitude)
         if let currentLocation = locations.last {
             locationManager.stopUpdatingLocation()
             let lat = currentLocation.coordinate.latitude
             let lon = currentLocation.coordinate.longitude
-            print(lat)
-            print(lon)
             weatherAPI.getWeatherDetails(lattitude: lat, longitude: lon)
             forcastAPI.getWeatherDetails(lattitude: lat, longitude: lon)
         }
@@ -202,8 +186,6 @@ extension WeatherViewController: UITextFieldDelegate {
             self.activityIndicator.startAnimating()
             weatherAPI.getWeatherDetails(cityName: cityName)
             forcastAPI.getWeatherDetails(cityName: cityName)
-            
-//            getWeatherDataFor(city: cityName)
         }
         textField.text = ""
     }
@@ -212,7 +194,7 @@ extension WeatherViewController: UITextFieldDelegate {
 //MARK: - WeatherAPI Delegate Methods
 
 extension WeatherViewController: WeatherAPIDelegate {
-
+    
     func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
         
         //updating UI
@@ -235,27 +217,18 @@ extension WeatherViewController: WeatherAPIDelegate {
 //MARK: - WeatherAPI Delegate Methods
 
 extension WeatherViewController: ForecastAPIDelegate {
-
+    
     func updateWeatherDetails(forecastAPI: ForecastAPI, weatherModel: [WeatherModel]) {
         forecastModelForSelectedCity = weatherModel
         //updating UI
         DispatchQueue.main.async {
-//            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
-//            self.labelTemperature.text = weatherModel.tempratureInString
-//            self.labelCity.text = weatherModel.cityName
-//            self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
-//            self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
             self.activityIndicator.stopAnimating()
             self.tableViewWeatherForecast.reloadData()
         }
     }
-    
-    //handling returned error
-//    func failedWithError(error: Error) {
-//        print(error)
-//    }
 }
 
+//MARK: - UI Table View Delegate and DataSource Methods
 
 extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -266,7 +239,6 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let tableCell = UITableViewCell()
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellWeatherForecast", for: indexPath) as! WeatherTableViewCell
         if let forcastData = forecastModelForSelectedCity {
             let temp = "\(forcastData[indexPath.row].tempMin) / \(forcastData[indexPath.row].tempMax)"
@@ -274,13 +246,10 @@ extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
             cell.labelTemperature.text = temp
             cell.imageViewWeather.image = UIImage(systemName: forcastData[indexPath.row].weatherName)
         }
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
-    
 }

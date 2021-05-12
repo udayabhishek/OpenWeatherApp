@@ -12,7 +12,6 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var labelDay: UILabel!
     @IBOutlet weak var labelTemperature: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,5 +22,4 @@ class WeatherTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }

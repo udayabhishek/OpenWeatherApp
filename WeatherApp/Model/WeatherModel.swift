@@ -38,9 +38,7 @@ struct WeatherModel {
         let date = Date(timeIntervalSince1970: dateTime)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, E"
-        //dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         return dateFormatter.string(from: date)
-//        return ""
     }
     
     //this will return weather condition

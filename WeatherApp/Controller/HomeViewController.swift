@@ -18,9 +18,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.navigationBar.isHidden = false
         weatherAPI.delegate = self
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,46 +34,34 @@ class HomeViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let selectedIndex = tableView.indexPathForSelectedRow
         let destinationVC = segue.destination as? WeatherViewController
-//        destinationVC?.selectedCity = arrayCityNames[selectedIndex!.row]
         destinationVC?.weatherModelForSelectedCity = weatherModelForSelectedCity
-//        destinationVC.selectedCity = arrayCityNames[selectedIndex?.row]
     }
-
 }
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return arrayCityNames.count > 0 ? arrayCityNames.count : 0
     }
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-
         cell.textLabel?.text = arrayCityNames[indexPath.row]
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.activityIndicator.startAnimating()
         weatherAPI.getWeatherDetails(cityName: arrayCityNames[indexPath.row])
-//        self.performSegue(withIdentifier: "segueToWeatherViewVC", sender: self)
-//        tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    
     // Override to support conditional editing of the table view.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
     
@@ -93,7 +79,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension HomeViewController: WeatherAPIDelegate {
     func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
-        
         self.weatherModelForSelectedCity = weatherModel
         
         DispatchQueue.main.async {
