@@ -49,6 +49,7 @@ class WeatherViewController: UIViewController {
             self.labelCity.text = weatherModel.cityName
             self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
             self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
+            tableViewWeatherForecast.reloadData()
         }
     }
 }
