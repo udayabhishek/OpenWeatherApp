@@ -16,6 +16,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var labelHumidity: UILabel!
     @IBOutlet weak var labelWindSpeed: UILabel!
     @IBOutlet weak var labelCity: UILabel!
+    @IBOutlet weak var tableViewWeatherForecast: UITableView!
     let userDefault = UserDefaults.standard
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
     var weatherModelForSelectedCity: WeatherModel?
@@ -42,7 +43,7 @@ class WeatherViewController: UIViewController {
         weatherAPI.delegate = self
         textFieldCityName.delegate = self
         
-//        weatherAPI.getWeatherDetails(cityName: selectedCity!)
+        tableViewWeatherForecast.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "cellWeatherForecast")
         
         let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipeMade(_:)))
         leftRecognizer.direction = .left
@@ -104,7 +105,7 @@ class WeatherViewController: UIViewController {
         locationManager.requestLocation()
     }
     
-    @IBAction func bookmarkButtonClicked(_ sender: UIButton) {
+    @IBAction func bookmarkButtonClicked(_ sender: UIBarButtonItem) {
         let cityName = labelCity.text!
         var message = "failed to bookmark"
         if !(Globals.shared.arrayCityNames.contains(cityName)) {
@@ -238,3 +239,22 @@ extension WeatherViewController: WeatherAPIDelegate {
 }
 
 
+extension WeatherViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let tableCell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellWeatherForecast", for: indexPath) as! WeatherTableViewCell
+        cell.labelDay.text = "monday"
+        cell.labelTemperature.text = "11/33"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    
+}
