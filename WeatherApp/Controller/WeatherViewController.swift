@@ -39,21 +39,6 @@ class WeatherViewController: UIViewController {
         tableViewWeatherForecast.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "cellWeatherForecast")
         updateUI(weatherModel: weatherModelForSelectedCity)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-//        loadUI()
-    }
-    
-    func loadUI() {
-        if let weatherModel = weatherModelForSelectedCity {
-            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
-            self.labelTemperature.text = weatherModel.tempratureInString
-            self.labelCity.text = weatherModel.cityName
-            self.labelHumidity.text = "\(weatherModel.humidity)%"
-            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
-            tableViewWeatherForecast.reloadData()
-        }
-    }
 }
 
 //MARK: -  Button clicks
@@ -130,20 +115,6 @@ extension WeatherViewController {
                 self.labelWindSpeed.text = "\(weatherModel.windSpeed) \(Imperial.Speed)"
             }
         }
-        
-       
-    }
-    
-    func metricToImperial(temp: Double, speed: Double) -> (String, String) {
-        let degree = (temp * 9/5) + 32
-        let speed = speed * 1.609
-        return ("\(degree)", "\(speed)")
-    }
-    
-    func imperialToMetric(temp: Double, speed: Double) -> (String, String) {
-        let farenheit = (temp - 32) * 5/9
-        let speed = speed * 1.609
-        return ("\(farenheit)", "\(speed)")
     }
     
     //TODO: - Yet to implement
@@ -224,11 +195,6 @@ extension WeatherViewController: WeatherAPIDelegate {
         //updating UI
         DispatchQueue.main.async {
             self.updateUI(weatherModel: weatherModel)
-//            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
-//            self.labelTemperature.text = weatherModel.tempratureInString
-//            self.labelCity.text = weatherModel.cityName
-//            self.labelHumidity.text = "\(weatherModel.humidity)%"
-//            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
         }
     }
     
