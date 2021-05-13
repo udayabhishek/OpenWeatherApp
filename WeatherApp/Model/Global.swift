@@ -8,6 +8,27 @@
 import Foundation
 import UIKit
 
+class Globals {
+    static var unit = Unit.Metric.rawValue
+    static var degree = Degree.Centigrade.rawValue
+    var arrayCityNames = [String]()
+    
+    static let shared = Globals()
+    private init() {}
+    
+    func clear() {
+        arrayCityNames.removeAll()
+    }
+    
+    static func getAlertControllerWith(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (result : UIAlertAction) -> Void in }
+        alertController.addAction(okAction)
+        return alertController
+    }
+}
+
+//TODO: - Need to move this to constant
 enum Unit: String {
     case Metric = "metric"
     case Imperial = "imperial"
@@ -28,31 +49,6 @@ enum Imperial: String {
     case Speed = "mph"
 }
 
-enum ButtonTag: Int {
-    case Metric = 111
-    case Imperial = 222
-}
 
-class Globals {
-    static let weather = "weather?"
-    static let forecast = "forecast?"
-    static let baseURL = "http://api.openweathermap.org/data/2.5/"
-    static let appID = "fae7190d7e6433ec3a45285ffcf55c86"
-    static var unit = Unit.Metric.rawValue
-    static var degree = Degree.Centigrade.rawValue
-    var arrayCityNames = [String]()
-    
-    static let shared = Globals()
-    private init() {}
-    
-    func clear() {
-        arrayCityNames.removeAll()
-    }
-    
-    static func getAlertControllerWith(title: String, message: String) -> UIAlertController {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { (result : UIAlertAction) -> Void in }
-        alertController.addAction(okAction)
-        return alertController
-    }
-}
+
+

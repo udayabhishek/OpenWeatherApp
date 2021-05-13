@@ -14,7 +14,7 @@ protocol ForecastAPIDelegate {
 }
 
 struct ForecastAPI {
-    let weatherBaseURL = "\(Globals.baseURL)\(Globals.forecast)appid=\(Globals.appID)&units=\(Globals.unit)"
+    let weatherBaseURL = "\(Constant.BASE_URL)\(Constant.FORECAST)appid=\(Constant.APP_ID)&units=\(Globals.unit)"
     var delegate: ForecastAPIDelegate?
     
     //get weather details base on city name

@@ -47,8 +47,8 @@ class WeatherViewController: UIViewController {
             self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
             self.labelTemperature.text = weatherModel.tempratureInString
             self.labelCity.text = weatherModel.cityName
-            self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
-            self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
+            self.labelHumidity.text = "\(weatherModel.humidity)%"
+            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
             tableViewWeatherForecast.reloadData()
         }
     }
@@ -62,6 +62,10 @@ extension WeatherViewController {
     @IBAction func searchButtonClicked(_ sender: UIButton) {
         //this will return keyboard
         textFieldCityName.endEditing(true)
+        if textFieldCityName.text == "" {
+            let alert = Globals.getAlertControllerWith(title: Constant.INFO, message: Constant.TEXTFIELD_EMPTY)
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func locationButtonClicked(_ sender: UIButton) {
@@ -71,16 +75,16 @@ extension WeatherViewController {
     
     @IBAction func bookmarkButtonClicked(_ sender: UIBarButtonItem) {
         let cityName = labelCity.text!
-        var message = "failed to bookmark"
+        var message = ""
         if !(Globals.shared.arrayCityNames.contains(cityName)) {
             Globals.shared.arrayCityNames.append(cityName)
             //            saveItems()
             //            userDefault.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
-            message = "City is bookmarked"
+            message = Constant.BOOKMARKED
         } else {
-            message = "City is aleady bookmarked"
+            message = Constant.BOOKMARKED_FAILED
         }
-        let alertController = Globals.getAlertControllerWith(title: "Info", message: message)
+        let alertController = Globals.getAlertControllerWith(title: Constant.INFO, message:message)
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -177,7 +181,7 @@ extension WeatherViewController: UITextFieldDelegate {
         if textField.text != "" {
             return true
         } else {
-            textField.placeholder = "Enter City Name"
+            textField.placeholder = Constant.PLACEHOLDER_TEXT
             return false
         }
     }
@@ -204,14 +208,16 @@ extension WeatherViewController: WeatherAPIDelegate {
             self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
             self.labelTemperature.text = weatherModel.tempratureInString
             self.labelCity.text = weatherModel.cityName
-            self.labelHumidity.text = "Humidity \(weatherModel.humidity)%"
-            self.labelWindSpeed.text = "Wind Speed \(weatherModel.windSpeed) kmph"
+            self.labelHumidity.text = "\(weatherModel.humidity)%"
+            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
         }
     }
     
     //handling returned error
     func failedWithError(error: Error) {
         print(error)
+        let alert = Globals.getAlertControllerWith(title: "Error", message: "Failed to Search weather data")
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
