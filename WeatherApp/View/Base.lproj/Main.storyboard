@@ -241,7 +241,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This app will give you weather details based on your location and you may search for city name to know about the weather" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JX1-34-bat">
-                                <rect key="frame" x="20" y="138" width="374" height="61"/>
+                                <rect key="frame" x="20" y="60" width="374" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -249,6 +249,38 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Help" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5R8-72-lJQ">
                                 <rect key="frame" x="20" y="20" width="374" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="30"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This app will give you weather details based on your location and you may search for city name to know about the weather" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KRN-Sz-QcE">
+                                <rect key="frame" x="20" y="155" width="374" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ss" translatesAutoresizingMaskIntoConstraints="NO" id="6RT-nd-rjd">
+                                <rect key="frame" x="20" y="237" width="187" height="396"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1. You can bookmark place name so that you can directly see the weather details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPo-2X-1d8">
+                                <rect key="frame" x="219" y="207" width="146" height="161"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You can also see the weather for 5 days" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="umM-Gg-tuX">
+                                <rect key="frame" x="219" y="480" width="146" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You can also see humidity and wind speed" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewF-Cj-SVN">
+                                <rect key="frame" x="219" y="376" width="146" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -261,7 +293,7 @@
                             <constraint firstItem="0xU-cD-aWR" firstAttribute="leading" secondItem="ajo-d6-JOw" secondAttribute="leading" id="LWg-zx-3h9"/>
                             <constraint firstAttribute="trailing" secondItem="JX1-34-bat" secondAttribute="trailing" constant="20" id="UIb-f2-OvM"/>
                             <constraint firstAttribute="trailing" secondItem="5R8-72-lJQ" secondAttribute="trailing" constant="20" id="VDa-i0-Z6S"/>
-                            <constraint firstItem="JX1-34-bat" firstAttribute="top" secondItem="lDE-SJ-2do" secondAttribute="top" constant="138" id="XrR-7q-BW0"/>
+                            <constraint firstItem="JX1-34-bat" firstAttribute="top" secondItem="lDE-SJ-2do" secondAttribute="top" constant="60" id="XrR-7q-BW0"/>
                             <constraint firstItem="5R8-72-lJQ" firstAttribute="leading" secondItem="lDE-SJ-2do" secondAttribute="leading" constant="20" id="h8D-o4-nGR"/>
                             <constraint firstItem="0xU-cD-aWR" firstAttribute="trailing" secondItem="ajo-d6-JOw" secondAttribute="trailing" id="r3B-m0-I1G"/>
                             <constraint firstItem="5R8-72-lJQ" firstAttribute="top" secondItem="ajo-d6-JOw" secondAttribute="top" constant="20" id="tPi-eI-HvT"/>
@@ -357,6 +389,7 @@
         <image name="bookmark.fill" catalog="system" width="112" height="128"/>
         <image name="location.fill" catalog="system" width="128" height="121"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="ss" width="1170" height="2532"/>
         <image name="sun.max" catalog="system" width="128" height="124"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
