@@ -26,6 +26,7 @@ class WeatherViewController: UIViewController {
     let locationManager = CLLocationManager()
     let userDefault = UserDefaults.standard
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
+    let dispatchQueue = DispatchQueue(label: "Weather")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +37,11 @@ class WeatherViewController: UIViewController {
         textFieldCityName.delegate = self
         
         tableViewWeatherForecast.register(UINib(nibName: "WeatherTableViewCell", bundle: nil), forCellReuseIdentifier: "cellWeatherForecast")
+        updateUI(weatherModel: weatherModelForSelectedCity)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadUI()
+//        loadUI()
     }
     
     func loadUI() {
@@ -78,7 +80,6 @@ extension WeatherViewController {
         var message = ""
         if !(Globals.shared.arrayCityNames.contains(cityName)) {
             Globals.shared.arrayCityNames.append(cityName)
-            //            saveItems()
             //            userDefault.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
             message = Constant.BOOKMARKED
         } else {
@@ -89,30 +90,48 @@ extension WeatherViewController {
     }
     
     @IBAction func changeMetric (_ sender: UIButton) {
-        //        if sender.tag == ButtonTag.Metric.rawValue {
-        //            Globals.unit = Unit.Metric.rawValue
-        //            let temp = Double(labelTemperature.text!)
-        //            let speed = speedLazy
-        //            let result = imperialToMetric(temp: temp!, speed: speed)
-        //            updateUI(result)
-        //
-        //        } else if sender.tag == ButtonTag.Imperial.rawValue {
-        //            Globals.unit = Unit.Imperial.rawValue
-        //            let temp = Double(labelTemperature.text!)
-        //            let speed = speedLazy
-        //            let result = metricToImperial(temp: temp!, speed: speed)
-        //            updateUI(result)
-        //        }
+        if sender.tag == ButtonTag.Metric.rawValue {
+            Globals.unit = Unit.Metric.rawValue
+            
+        } else if sender.tag == ButtonTag.Imperial.rawValue {
+            Globals.unit = Unit.Imperial.rawValue
+        }
+        callAPI()
     }
     
-    func updateUI(_ result: (String, String)) {
-        self.labelTemperature.text = result.0
-        self.labelWindSpeed.text = result.1
-        if Globals.unit == Unit.Metric.rawValue {
-            self.labelTemperatureUnit.text = "C"
-        } else {
-            self.labelTemperatureUnit.text = "F"
+    func callAPI() {
+        let cityName = self.labelCity.text!
+        dispatchQueue.async {
+            self.weatherAPI.getWeatherDetails(cityName: cityName)
         }
+        
+        dispatchQueue.async {
+            self.forcastAPI.getWeatherDetails(cityName: cityName)
+            DispatchQueue.main.async {
+                self.updateUI(weatherModel: self.weatherModelForSelectedCity)
+                
+            }
+        }
+    }
+    
+    func updateUI(weatherModel: WeatherModel?) {
+        if let weatherModel = weatherModel {
+            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
+            self.labelTemperature.text = weatherModel.tempratureInString
+            self.labelCity.text = weatherModel.cityName
+            self.labelHumidity.text = "\(weatherModel.humidity)%"
+            
+            if Globals.unit == Unit.Metric.rawValue {
+                self.labelTemperatureUnit.text = Degree.Centigrade.rawValue
+                self.labelWindSpeed.text = "\(weatherModel.windSpeed) \(Metric.Speed)"
+            }
+            else if Globals.unit == Unit.Imperial.rawValue {
+                self.labelTemperatureUnit.text = Degree.Farenheit.rawValue
+                self.labelWindSpeed.text = "\(weatherModel.windSpeed) \(Imperial.Speed)"
+            }
+        }
+        
+       
     }
     
     func metricToImperial(temp: Double, speed: Double) -> (String, String) {
@@ -201,15 +220,15 @@ extension WeatherViewController: UITextFieldDelegate {
 extension WeatherViewController: WeatherAPIDelegate {
     
     func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
-        
+        weatherModelForSelectedCity = weatherModel
         //updating UI
         DispatchQueue.main.async {
-            
-            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
-            self.labelTemperature.text = weatherModel.tempratureInString
-            self.labelCity.text = weatherModel.cityName
-            self.labelHumidity.text = "\(weatherModel.humidity)%"
-            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
+            self.updateUI(weatherModel: weatherModel)
+//            self.imageViewWeather.image = UIImage(systemName: weatherModel.weatherName)
+//            self.labelTemperature.text = weatherModel.tempratureInString
+//            self.labelCity.text = weatherModel.cityName
+//            self.labelHumidity.text = "\(weatherModel.humidity)%"
+//            self.labelWindSpeed.text = "\(weatherModel.windSpeed) kmph"
         }
     }
     
@@ -221,7 +240,7 @@ extension WeatherViewController: WeatherAPIDelegate {
     }
 }
 
-//MARK: - WeatherAPI Delegate Methods
+//MARK: - ForecastAPI Delegate Methods
 
 extension WeatherViewController: ForecastAPIDelegate {
     

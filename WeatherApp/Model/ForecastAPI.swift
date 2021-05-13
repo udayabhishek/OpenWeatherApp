@@ -14,12 +14,12 @@ protocol ForecastAPIDelegate {
 }
 
 struct ForecastAPI {
-    let weatherBaseURL = "\(Constant.BASE_URL)\(Constant.FORECAST)appid=\(Constant.APP_ID)&units=\(Globals.unit)"
+    let weatherBaseURL = "\(Constant.BASE_URL)\(Constant.FORECAST)appid=\(Constant.APP_ID)"
     var delegate: ForecastAPIDelegate?
     
     //get weather details base on city name
     func getWeatherDetails(cityName: String) {
-        let url = "\(weatherBaseURL)&q=\(cityName)"
+        let url = "\(weatherBaseURL)&q=\(cityName)&units=\(Globals.unit)"
         print(url)
         performRequest(url: url)
     }

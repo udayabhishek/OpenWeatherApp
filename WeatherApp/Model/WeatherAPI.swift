@@ -14,19 +14,19 @@ protocol WeatherAPIDelegate {
 }
 
 struct WeatherAPI {
-    let weatherBaseURL = "\(Constant.BASE_URL)\(Constant.WEATHER)appid=\(Constant.APP_ID)&units=\(Globals.unit)"
+    let weatherBaseURL = "\(Constant.BASE_URL)\(Constant.WEATHER)appid=\(Constant.APP_ID)"
     var delegate: WeatherAPIDelegate?
     
     //get weather details base on city name
     func getWeatherDetails(cityName: String) {
-        let url = "\(weatherBaseURL)&q=\(cityName)"
+        let url = "\(weatherBaseURL)&q=\(cityName)&units=\(Globals.unit)"
         print(url)
         performRequest(url: url)
     }
     
     //get weather details base on coordinates
     func getWeatherDetails(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let url = "\(weatherBaseURL)&lat=\(lattitude)&lon=\(longitude)"
+        let url = "\(weatherBaseURL)&lat=\(lattitude)&lon=\(longitude)&units=\(Globals.unit)"
         print(url)
         performRequest(url: url)
     }
