@@ -8,21 +8,21 @@
 import XCTest
 
 class WeatherScreenUITests: XCTestCase {
-    var app: XCUIApplication!
+//    var app: XCUIApplication!
     
     override func setUpWithError() throws {
         continueAfterFailure = false
 
-        app = XCUIApplication()
-        app.launch()
+//        app = XCUIApplication()
+//        app.launch()
     }
 
     override func tearDownWithError() throws {
-        app = nil
+//        app = nil
     }
 
-    func testBookmarkButton() throws {
-        app.buttons[""].tap()
-    }
+//    func testBookmarkButton() throws {
+//        app.buttons[""].tap()
+//    }
 
 }

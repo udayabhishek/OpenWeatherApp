@@ -28,8 +28,11 @@ class WeatherViewController: UIViewController {
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("CityList.plist")
     let dispatchQueue = DispatchQueue(label: "Weather")
     
+    var tempArr = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         weatherAPI.delegate = self
@@ -65,7 +68,8 @@ extension WeatherViewController {
         var message = ""
         if !(Globals.shared.arrayCityNames.contains(cityName)) {
             Globals.shared.arrayCityNames.append(cityName)
-            //            userDefault.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
+            
+            Globals.shared.userDefaults.set(Globals.shared.arrayCityNames, forKey: "CityNameList")
             message = Constant.BOOKMARKED
         } else {
             message = Constant.BOOKMARKED_FAILED

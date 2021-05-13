@@ -23,16 +23,19 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         weatherAPI.delegate = self
         forecastAPI.delegate = self
+        tableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        arrayCityNames.removeAll()
-        if Globals.shared.arrayCityNames.count == 0 {
-            arrayCityNames.append("Bangalore")
-        } else {
-            arrayCityNames = Globals.shared.arrayCityNames
+        
+        if let array = Globals.shared.userDefaults.array(forKey: "CityNameList") as? [String] {
+            arrayCityNames = array
         }
+        
+        if arrayCityNames.count == 0 {
+            arrayCityNames.append("Bangalore")
+        } 
         
         tableView.reloadData()
     }
@@ -41,6 +44,10 @@ class HomeViewController: UIViewController {
         let destinationVC = segue.destination as? WeatherViewController
         destinationVC?.weatherModelForSelectedCity = weatherModelForSelectedCity
         destinationVC?.forecastModelForSelectedCity = forecastModelForSelectedCity
+        
+        let backItem = UIBarButtonItem()
+            backItem.title = ""
+            navigationItem.backBarButtonItem = backItem
     }
 }
 
@@ -69,6 +76,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             self.forecastAPI.getWeatherDetails(cityName: self.arrayCityNames[indexPath.row])
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60.0
+    }
 
     // Override to support conditional editing of the table view.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -78,9 +89,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
             arrayCityNames.remove(at: indexPath.row)
+            Globals.shared.userDefaults.set(arrayCityNames, forKey: "CityNameList")
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -90,11 +103,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController: WeatherAPIDelegate {
     func updateWeatherDetails(weatherAPI: WeatherAPI, weatherModel: WeatherModel) {
         self.weatherModelForSelectedCity = weatherModel
-        
-//        DispatchQueue.main.async {
-//            self.activityIndicator.stopAnimating()
-//            self.performSegue(withIdentifier: "segueToWeatherViewVC", sender: self)
-//        }
     }
     
     func failedWithError(error: Error) {

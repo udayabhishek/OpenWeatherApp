@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Weather View Controller-->
+        <!--Weather-->
         <scene sceneID="fde-o9-u2n">
             <objects>
                 <viewController id="wOG-hD-Kl0" customClass="WeatherViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -197,7 +197,7 @@
                             <constraint firstItem="2KD-8k-y4P" firstAttribute="centerX" secondItem="16G-s4-anG" secondAttribute="centerX" id="yZq-dG-Mhv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="1VE-vo-XbS">
+                    <navigationItem key="navigationItem" title="Weather" id="1VE-vo-XbS">
                         <rightBarButtonItems>
                             <barButtonItem image="arrowshape.turn.up.right.fill" catalog="system" id="UYs-2U-lW1">
                                 <color key="tintColor" systemColor="labelColor"/>
@@ -272,7 +272,7 @@
             </objects>
             <point key="canvasLocation" x="2723.1884057971015" y="71.651785714285708"/>
         </scene>
-        <!--City Names-->
+        <!--Places-->
         <scene sceneID="NQA-wf-u3I">
             <objects>
                 <viewController id="mpn-Jn-xwD" customClass="HomeViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -319,7 +319,7 @@
                             <constraint firstItem="Y6Z-2V-mi5" firstAttribute="trailing" secondItem="F8x-J9-nkr" secondAttribute="trailing" id="zkI-sL-o87"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="City Names" id="wWm-iq-RmM"/>
+                    <navigationItem key="navigationItem" title="Places" id="wWm-iq-RmM"/>
                     <connections>
                         <outlet property="activityIndicator" destination="Kpy-vt-8H9" id="yRm-N6-AeU"/>
                         <outlet property="tableView" destination="Y6Z-2V-mi5" id="BuY-5e-97V"/>
@@ -338,6 +338,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RYm-01-heP">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.090196078431372548" green="0.20392156862745098" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.6470588235294118" green="0.87450980392156863" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

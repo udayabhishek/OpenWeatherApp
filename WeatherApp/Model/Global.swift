@@ -15,7 +15,7 @@ class Globals {
     static var unit = Unit.Metric.rawValue
     static var degree = Degree.Centigrade.rawValue
     var arrayCityNames = [String]()
-    
+    let userDefaults = UserDefaults.standard
     func clear() {
         arrayCityNames.removeAll()
     }
