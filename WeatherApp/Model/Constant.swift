@@ -28,3 +28,23 @@ enum ButtonTag: Int {
     case Metric = 111
     case Imperial = 222
 }
+
+enum Unit: String {
+    case Metric = "metric"
+    case Imperial = "imperial"
+}
+
+enum Degree: String {
+    case Centigrade = "C"
+    case Farenheit = "F"
+}
+
+enum Metric: String {
+    case Temprature = "C"
+    case Speed = "kmph"
+}
+
+enum Imperial: String {
+    case Temprature = "F"
+    case Speed = "mph"
+}
