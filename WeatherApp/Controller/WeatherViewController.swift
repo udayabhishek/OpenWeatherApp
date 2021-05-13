@@ -49,10 +49,10 @@ extension WeatherViewController {
     @IBAction func searchButtonClicked(_ sender: UIButton) {
         //this will return keyboard
         textFieldCityName.endEditing(true)
-        if textFieldCityName.text == "" {
-            let alert = Globals.getAlertControllerWith(title: Constant.INFO, message: Constant.TEXTFIELD_EMPTY)
-            self.present(alert, animated: true, completion: nil)
-        }
+//        if textFieldCityName.text == "" {
+//            let alert = Globals.getAlertControllerWith(title: Constant.INFO, message: Constant.TEXTFIELD_EMPTY)
+//            self.present(alert, animated: true, completion: nil)
+//        }
     }
     
     @IBAction func locationButtonClicked(_ sender: UIButton) {
